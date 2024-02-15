@@ -14,10 +14,20 @@ function initUser(usertag: string){
     data.push(user);
     fs.writeFileSync("./data.json", JSON.stringify(data));
 }
+function compareUsers(a: User, b:User): number{
+    if(a.money > b.money) return -1;
+    if(b.money > a.money) return 1;
+    return 0;
+}
+function getLeaderboard(): Array<User>{
+    let data: Array<User> = getJson();
+    console.log(data.sort(compareUsers));
+    return data.sort(compareUsers);
+     
+}
 function getMoney(usertag: string): number {
     let data: Array<User> = getJson();
     for (let user of data as User[]) {
-        console.log(usertag);
         if (user.tag == usertag) {
             
             return user.money;
@@ -38,9 +48,11 @@ function setMoney(userid: string, money: number, r = false) {
                 user.money = money;
             }
         }
+        
     }
     fs.writeFileSync("./data.json", JSON.stringify(data));
 }
+
 function getUser(usertag:string){
     let data = getJson();
     for (let user of data as User[]) {
@@ -51,6 +63,7 @@ function getUser(usertag:string){
     return false;
 }
 export {
+    getLeaderboard,
     getUser,
     getJson,
     User,

@@ -52,21 +52,23 @@ export async function execute(interaction: any) {
     let win: number=-bet;
     if(color == false){
          if(number==roll){
-           win = bet*35;
-        }else{
-            win= -bet;
+           win += bet*35;
+            setMoney("smellvinn", (bet*35)/10, true);
         }
     }
 
     if(number == false){
         if(roll == 0){
-            win = bet*35;
+            win += bet*35;
+            setMoney("smellvinn", (bet*35)/10, true);
         }
         if(BOARD[roll]=="🟥" && color == "Red"){
-            win = bet*2;
+            win += bet*2;
+            setMoney("smellvinn", (bet*2)/10, true);
         }
         if(BOARD[roll]=="⬛" && color == "Black"){
-            win = bet*2;
+            setMoney("smellvinn", (bet*2)/10, true);
+            win += bet*2;
         }
     }
     setMoney(usertag, win, true);
@@ -86,9 +88,9 @@ export async function execute(interaction: any) {
     const rouletteEmbed = new EmbedBuilder()
         .setColor("#c93434")
         .setTitle("Roulette!")
-        .setDescription(`Betting ${bet} on ${color}`)
+        .setDescription(`Betting **${bet}** on **${color != false ? color : "nr"+number}**`)
         .addFields(
-            { name: `The ball landed on ${cRow[2]}**${roll}**!`, value:`${cRow.join("")}\n${n1Row.join("")}\n${n2Row.join("")}\n${cRow.join("")}`}
+            { name: `The ball landed on ${cRow[2]}**${roll}**!`, value:`:white_large_square::white_large_square::white_large_square::arrow_down::white_large_square::white_large_square::white_large_square:\n:white_large_square:${cRow.join("")}:white_large_square:\n:white_large_square:${n1Row.join("")}:white_large_square:\n:white_large_square:${n2Row.join("")}:white_large_square:\n:white_large_square:${cRow.join("")}:white_large_square:\n:white_large_square::white_large_square::white_large_square::arrow_up::white_large_square::white_large_square::white_large_square:\n`}
         );
    interaction.channel.send({ embeds: [rouletteEmbed]});
    return;
